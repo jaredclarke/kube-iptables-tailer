@@ -39,7 +39,7 @@ func (pd PacketDrop) IsExpired() bool {
         glog.V(4).Infof("Expired packet drop: since=%+v", diffTime)
         return true
     }
-	return false
+	return true
 }
 
 // Get the time object of PacketDrop log time

@@ -93,13 +93,16 @@ func getPacketDrop(packetDropLog, logTimeLayout string) (PacketDrop, error) {
 	}
 
 	// get log time and host name
-
-	logTime, err := time.Parse(logTimeLayout, logFields[0])
+	// Nov 20 10:59:44 ip-10-0-20-6 kernel: calico-packet-deny:
+	// IN=eth0
+	// OUT=enif5cbf984989 MAC=06:d 2:7b:90:1a:12:06:7c:ba:b4:d9:b8:08:00
+	// SRC=10.0.21.16 DST=10.0.20.60 LEN=115 TOS=0x00 PREC=0x00 TTL=253 ID=57909 DF PROTO=TCP SPT=15012 DPT=58530 WINDOW=219 RES=0x00 ACK PSH FIN URGP=0
+	logTime, err := time.Parse(logTimeLayout, logFields[0]+" "+logFields[1]+" "+logFields[2])
 	if err != nil {
 		return PacketDrop{}, err
 	}
 
-	hostName := logFields[1]
+	hostName := logFields[3]
 
 	// get src and dst IPs
 	srcIP, err := getFieldValue(logFields, fieldSrcIP)

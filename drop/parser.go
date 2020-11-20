@@ -66,16 +66,21 @@ func parse(logPrefix, log string, packetDropCh chan<- PacketDrop, logTimeLayout 
 		return nil
 	}
 	glog.V(4).Infof("Parsing new packet drop: log=%+v", log)
+	glog.V(4).Infof("TEST 1")
 	// parse the log and get an object of PacketDrop as result
 	packetDrop, err := getPacketDrop(log, logTimeLayout)
+	glog.V(4).Infof("TEST 2")
 	if err != nil {
 		return err
 	}
+	glog.V(4).Infof("TEST 3")
 	// only insert the packetDrop into channel if it's not expired
 	if !packetDrop.IsExpired() {
+	    glog.V(4).Infof("TEST 4")
 		packetDropCh <- packetDrop
 	}
 
+    glog.V(4).Infof("TEST 5")
 	return nil
 }
 

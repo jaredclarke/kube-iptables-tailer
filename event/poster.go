@@ -60,6 +60,7 @@ func InitPoster() (*Poster, error) {
 
 // Run the poster by handling PacketDrop from given channel. Apply exponential backoff if server is down.
 func (poster *Poster) Run(stopCh <-chan struct{}, packetDropCh <-chan drop.PacketDrop) {
+    glog.V(4).Infof("TEST POSTER RUN")
 	go poster.locator.Run(stopCh)
     glog.V(4).Infof("RUN PACKETDROP POSTER")
 	for packetDrop := range packetDropCh {

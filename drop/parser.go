@@ -32,9 +32,14 @@ var fieldCount = reflect.ValueOf(PacketDrop{}).NumField()
 func (pd PacketDrop) IsExpired() bool {
 	logTime := pd.GetLogTime()
 	curTime := time.Now()
+	diffTime := curTime.Sub(logTime).Minutes()
 	expiredMinutes := float64(util.GetEnvIntOrDefault(
 		util.PacketDropExpirationMinutes, util.DefaultPacketDropExpirationMinutes))
-	return curTime.Sub(logTime).Minutes() > expiredMinutes
+	if diffTime > expiredMinutes {
+        glog.V(4).Infof("Expired packet drop: since=%+v log=%+v", diffTime, log)
+        return true
+    }
+	return false
 }
 
 // Get the time object of PacketDrop log time
